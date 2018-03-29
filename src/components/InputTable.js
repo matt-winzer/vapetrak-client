@@ -22,30 +22,29 @@ class InputTable extends Component {
   render() {
     return (
       <div className="Input-Table">
-        <p>Hello World</p>
-          <Table color={'red'}>
-            <Table.Header>
-              <Table.Row>
-                <Table.HeaderCell>Setup</Table.HeaderCell>
-                <Table.HeaderCell></Table.HeaderCell>
-              </Table.Row>
-            </Table.Header>
+        <Table color={'red'} columns={2}>
+          <Table.Header>
+            <Table.Row>
+              <Table.HeaderCell>Setup</Table.HeaderCell>
+              <Table.HeaderCell></Table.HeaderCell>
+            </Table.Row>
+          </Table.Header>
 
-            <Table.Body>
-              <Table.Row>
-                <Table.Cell>Nicotine Strength</Table.Cell>
-              <Table.Cell><Input name={'nicotine_strength'} value={this.state.nicotine_strength} handleChange={this.handleChange} /> mg/ml</Table.Cell>
-              </Table.Row>
-              <Table.Row>
-                <Table.Cell>Vegetable Glycerin</Table.Cell>
-                <Table.Cell>{this.state.vg}%</Table.Cell>
-              </Table.Row>
-              <Table.Row>
-                <Table.Cell>Propylene Glycol</Table.Cell>
-                <Table.Cell>{100 - this.state.vg}%</Table.Cell>
-              </Table.Row>
-            </Table.Body>
-          </Table>
+          <Table.Body>
+            <Table.Row>
+              <Table.Cell>Nicotine Strength</Table.Cell>
+            <Table.Cell><Input name={'nicotine_strength'} value={this.state.nicotine_strength} handleChange={this.handleChange} label={'mg/ml'}/></Table.Cell>
+            </Table.Row>
+            <Table.Row>
+              <Table.Cell>Vegetable Glycerin</Table.Cell>
+            <Table.Cell><Input name={'vg'} value={this.state.vg} handleChange={this.handleChange} label={'%'}/></Table.Cell>
+            </Table.Row>
+            <Table.Row>
+              <Table.Cell>Propylene Glycol</Table.Cell>
+            <Table.Cell><Input name={'pg'} disabled value={100 - this.state.vg} label={'%'} /></Table.Cell>
+            </Table.Row>
+          </Table.Body>
+        </Table>
       </div>
     )
   }

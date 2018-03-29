@@ -5,7 +5,6 @@ class Calculator extends Component {
   render() {
     return (
       <div className="Calculator">
-        <p>Hello Calculator</p>
         <InputTable />
       </div>
     )
