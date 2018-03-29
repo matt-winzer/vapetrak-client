@@ -1,6 +1,5 @@
-import React, { Component } from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { Component } from 'react'
+import './App.css'
 import Calculator from './components/Calculator'
 
 class App extends Component {
@@ -13,8 +12,8 @@ class App extends Component {
         </header>
         <Calculator />
       </div>
-    );
+    )
   }
 }
 
-export default App;
+export default App
