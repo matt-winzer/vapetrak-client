@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { Table, Message } from 'semantic-ui-react'
-import Input from './Input'
+import NumberInput from './NumberInput'
 
 
 class InputTable extends Component {
@@ -8,37 +8,47 @@ class InputTable extends Component {
     nicotineStrength: 100,
     vg: 50,
     error: false,
-    errorMessage: 'Please enter a number between 1 and 100'
+    errorMessage: 'Please enter a number between 1 and 100',
+    volume: 30
   }
 
-  handleChange = (e) => {
+  handleRatioChange = (e) => {
     const key = e.target.name
     const value = e.target.value
 
-    if (this.validInput(value)) {
+    if (this.validRatioInput(value)) {
       this.clearError()
       this.setState({
         [key]: value
       })
-    } else this.throwError()
-      
+    } else this.throwError('first test')
       
     console.log(this.state)
   }
 
-  throwError = () => this.setState({ error: true })
+  handleNumberChange = (e) => {
+    const key = e.target.name
+    const value = e.target.value
 
+    if (this.isNumber(value)) {
+      this.clearError()
+      this.setState({
+        [key]: value
+      })
+    } else this.throwError('test error')
+
+    console.log(this.state)
+  }
+
+  throwError = (message) => this.setState({ error: true, errorMessage: message })
   clearError = () => this.setState({ error: false })
-
-  validInput = (input) => this.isNumber(input) && this.isLessThan100(input)
-
+  validRatioInput = (input) => this.isNumber(input) && this.isLessThan100(input)
   isNumber = (input) => !isNaN(input)
-  
   isLessThan100 = (input) => input <= 100 
 
   render() {
     return (
-      <div className="Input-Table">
+      <div className="NumberInput-Table">
         <Table color={'red'} columns={2}>
           <Table.Header>
             <Table.Row>
@@ -50,24 +60,31 @@ class InputTable extends Component {
           <Table.Body>
             <Table.Row>
               <Table.Cell>Nicotine Strength</Table.Cell>
-              <Table.Cell><Input  name={'nicotineStrength'}
-                                  value={this.state.nicotineStrength}
-                                  handleChange={this.handleChange}
-                                  label={'mg/ml'} /></Table.Cell>
+              <Table.Cell><NumberInput  name={'nicotineStrength'}
+                                        value={this.state.nicotineStrength}
+                                        handleChange={this.handleRatioChange}
+                                        label={'mg/ml'} /></Table.Cell>
             </Table.Row>
             <Table.Row>
               <Table.Cell>Vegetable Glycerin</Table.Cell>
-              <Table.Cell><Input  name={'vg'} 
-                                  value={this.state.vg} 
-                                  handleChange={this.handleChange}
-                                  label={'%'} /></Table.Cell>
+              <Table.Cell><NumberInput  name={'vg'} 
+                                        value={this.state.vg} 
+                                        handleChange={this.handleRatioChange}
+                                        label={'%'} /></Table.Cell>
             </Table.Row>
             <Table.Row>
               <Table.Cell>Propylene Glycol</Table.Cell>
-              <Table.Cell><Input  name={'pg'}
-                                  disabled
-                                  value={(100 - this.state.vg)}
-                                  label={'%'} /></Table.Cell>
+              <Table.Cell><NumberInput  name={'pg'}
+                                        disabled
+                                        value={(100 - this.state.vg)}
+                                        label={'%'} /></Table.Cell>
+            </Table.Row>
+            <Table.Row>
+              <Table.Cell>Propylene Glycol</Table.Cell>
+              <Table.Cell><NumberInput  name={'volume'}
+                                        value={this.state.volume}
+                                        handleChange={this.handleNumberChange}
+                                        label={'ml'} /></Table.Cell>
             </Table.Row>
           </Table.Body>
         </Table>
