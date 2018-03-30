@@ -1,11 +1,11 @@
 import React, { Component } from 'react'
-import InputTable from './InputTable'
+import NicotineTable from './NicotineTable'
 
 class Calculator extends Component {
   render() {
     return (
       <div className="Calculator">
-        <InputTable />
+        <NicotineTable />
       </div>
     )
   }
