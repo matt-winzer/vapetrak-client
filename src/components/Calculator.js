@@ -56,13 +56,15 @@ class Calculator extends Component {
         {this.state.error && <ErrorMessage errorMessage={this.state.errorMessage} />}
         <NicotineTable  nicotineStrength={this.state.nicotineStrength}
                         nicotineVg={this.state.nicotineVg}
-                        nicotineError={this.state.nicotineError}
-                        nicotineErrorMessage={this.state.nicotineErrorMessage}
                         handleRatioChange={this.handleRatioChange}
                         handleNumberChange={this.handleNumberChange}
                         clearError={this.clearError} />
-        <JuiceTable />
-      </div>
+        <JuiceTable juiceVolume={this.state.juiceVolume}
+                    juiceStrength={this.state.juiceStrength}
+                    juiceVg={this.state.juiceVg}
+                    handleRatioChange={this.handleRatioChange}
+                    handleNumberChange={this.handleNumberChange}
+                    clearError={this.clearError} />      </div>
     )
   }
 }
