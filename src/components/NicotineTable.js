@@ -11,6 +11,11 @@ class NicotineTable extends Component {
     errorMessage: 'Please enter a number between 0 and 100',
   }
 
+  componentDidMount() {
+    console.log('NIC TABLE')
+    console.log(this.props)
+  }
+
   handleRatioChange = (e) => {
     const key = e.target.name
     const value = e.target.value
@@ -51,8 +56,7 @@ class NicotineTable extends Component {
         <Table color={'red'} columns={2}>
           <Table.Header>
             <Table.Row>
-              <Table.HeaderCell>{!this.state.error ? 'Nicotine Setup' : <Message error header={this.state.errorMessage} />}</Table.HeaderCell>
-              <Table.HeaderCell></Table.HeaderCell>
+              <Table.HeaderCell colSpan={2}>{!this.props.error ? 'Nicotine Setup' : <Message error header={this.props.errorMessage} />}</Table.HeaderCell>
             </Table.Row>
 
           </Table.Header>
@@ -60,22 +64,25 @@ class NicotineTable extends Component {
             <Table.Row>
               <Table.Cell>Nicotine: Strength</Table.Cell>
               <Table.Cell><NumberInput  name={'nicotineStrength'}
-                                        value={this.state.nicotineStrength}
-                                        handleChange={this.handleRatioChange}
+                                        clearError={this.props.clearError}
+                                        value={this.props.nicotineStrength}
+                                        handleChange={this.props.handleRatioChange}
                                         label={'mg/ml'} /></Table.Cell>
             </Table.Row>
             <Table.Row>
               <Table.Cell>Nicotine: VG</Table.Cell>
-              <Table.Cell><NumberInput  name={'nicotineVg'} 
-                                        value={this.state.nicotineVg} 
-                                        handleChange={this.handleRatioChange}
+              <Table.Cell><NumberInput  name={'nicotineVg'}
+                                        clearError={this.props.clearError}
+                                        value={this.props.nicotineVg} 
+                                        handleChange={this.props.handleRatioChange}
                                         label={'%'} /></Table.Cell>
             </Table.Row>
             <Table.Row>
               <Table.Cell>Nicotine: PG</Table.Cell>
               <Table.Cell><NumberInput  name={'pg'}
+                                        clearError={this.props.clearError}
                                         disabled
-                                        value={(100 - this.state.nicotineVg)}
+                                        value={(100 - this.props.nicotineVg)}
                                         label={'%'} /></Table.Cell>
             </Table.Row>
           </Table.Body>
@@ -92,7 +99,7 @@ export default NicotineTable
             // <Table.Row>
             //   <Table.Cell>Overall Volume</Table.Cell>
             //   <Table.Cell><NumberInput  name={'volume'}
-            //                             value={this.state.volume}
+            //                             value={this.props.volume}
             //                             handleChange={this.handleNumberChange}
             //                             label={'ml'} /></Table.Cell>
             // </Table.Row>
