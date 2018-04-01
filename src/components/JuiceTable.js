@@ -17,7 +17,7 @@ class JuiceTable extends Component {
           </Table.Header>
           <Table.Body>
             <Table.Row>
-              <Table.Cell>Volume to Make</Table.Cell>
+              <Table.Cell>Total Volume</Table.Cell>
               <Table.Cell><NumberInput  name={'juiceVolume'}
                                         clearError={this.props.clearError}
                                         value={this.props.juiceVolume}
@@ -25,7 +25,7 @@ class JuiceTable extends Component {
                                         label={'ml'} /></Table.Cell>
             </Table.Row>
             <Table.Row>
-              <Table.Cell>Juice: Strength</Table.Cell>
+              <Table.Cell>Juice - Strength</Table.Cell>
               <Table.Cell><NumberInput  name={'juiceStrength'}
                                         clearError={this.props.clearError}
                                         value={this.props.juiceStrength}
@@ -33,7 +33,7 @@ class JuiceTable extends Component {
                                         label={'mg/ml'} /></Table.Cell>
             </Table.Row>
             <Table.Row>
-              <Table.Cell>Juice: VG</Table.Cell>
+              <Table.Cell>Juice - VG</Table.Cell>
               <Table.Cell><NumberInput  name={'juiceVg'}
                                         clearError={this.props.clearError}
                                         value={this.props.juiceVg}
@@ -41,7 +41,7 @@ class JuiceTable extends Component {
                                         label={'%'} /></Table.Cell>
             </Table.Row>
             <Table.Row>
-              <Table.Cell>Juice: PG</Table.Cell>
+              <Table.Cell>Juice - PG</Table.Cell>
               <Table.Cell><NumberInput  name={'pg'}
                                         clearError={this.props.clearError}
                                         disabled
