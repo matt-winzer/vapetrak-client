@@ -48,13 +48,3 @@ class NicotineTable extends Component {
 }
 
 export default NicotineTable
-
-
-
-            // <Table.Row>
-            //   <Table.Cell>Overall Volume</Table.Cell>
-            //   <Table.Cell><NumberInput  name={'volume'}
-            //                             value={this.props.volume}
-            //                             handleChange={this.handleNumberChange}
-            //                             label={'ml'} /></Table.Cell>
-            // </Table.Row>
