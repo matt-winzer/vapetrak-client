@@ -4,6 +4,7 @@ import { Grid } from 'semantic-ui-react'
 import NicotineTable from './NicotineTable'
 import JuiceTable from './JuiceTable'
 import ErrorMessage from './ErrorMessage'
+import Recipe from './Recipe'
 
 
 class Calculator extends Component {
@@ -51,26 +52,46 @@ class Calculator extends Component {
     return (
       <div className="Calculator">
         {this.state.error && <ErrorMessage errorMessage={this.state.errorMessage} />}
-        <Grid padded columns={2}>
-          <Grid.Column>
+        <Grid padded>
+          <Grid.Row columns={2}>
+            <Grid.Column>
 
-              <JuiceTable juiceVolume={this.state.juiceVolume}
-                juiceStrength={this.state.juiceStrength}
-                juiceVg={this.state.juiceVg}
-                handleRatioChange={this.handleRatioChange}
-                handleNumberChange={this.handleNumberChange}
-                clearError={this.clearError} />
+                <JuiceTable 
+                  juiceVolume={this.state.juiceVolume}
+                  juiceStrength={this.state.juiceStrength}
+                  juiceVg={this.state.juiceVg}
+                  handleRatioChange={this.handleRatioChange}
+                  handleNumberChange={this.handleNumberChange}
+                  clearError={this.clearError} />
+                  
+            </Grid.Column>
+            <Grid.Column>
 
-              <NicotineTable nicotineStrength={this.state.nicotineStrength}
+              <NicotineTable 
+                nicotineStrength={this.state.nicotineStrength}
                 nicotineVg={this.state.nicotineVg}
                 handleRatioChange={this.handleRatioChange}
                 handleNumberChange={this.handleNumberChange}
                 clearError={this.clearError} />
-            
-          </Grid.Column>
-          <Grid.Column>
 
-          </Grid.Column>
+            </Grid.Column>
+          </Grid.Row>
+
+          <Grid.Row>
+            <Grid.Column>
+
+              <Recipe
+                juiceVolume={this.state.juiceVolume}
+                juiceStrength={this.state.juiceStrength}
+                juiceVg={this.state.juiceVg}
+                nicotineStrength={this.state.nicotineStrength}
+                nicotineVg={this.state.nicotineVg}
+                handleRatioChange={this.handleRatioChange}
+                handleNumberChange={this.handleNumberChange}
+                clearError={this.clearError} />
+
+            </Grid.Column>
+          </Grid.Row>
         </Grid>
       </div>
     )
