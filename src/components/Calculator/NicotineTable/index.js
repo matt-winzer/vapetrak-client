@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { Table, Message } from 'semantic-ui-react'
-import NumberInput from './NumberInput'
+import NumberInput from '../NumberInput'
 
 
 class NicotineTable extends Component {
