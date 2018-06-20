@@ -1,55 +1,55 @@
 import React, { Component } from 'react'
 import { Table, Message } from 'semantic-ui-react'
 import NumberInput from '../NumberInput'
+import RecipeRow from './RecipeRow'
 
 
 class Recipe extends Component {
 
+  calculateNicotinePercent = (juiceStrength, nicStrength, juiceVolume) => {
+    return ((((juiceStrength / nicStrength) * juiceVolume) / juiceVolume) * 100).toFixed(2)
+  }
+
   render() {
+    const { juiceStrength,
+            juiceVg,
+            juiceVolume,
+            nicotineStrength,
+            nicotineVg } = this.props
+
     return (
       <div className="NumberInput-Table">
-        <Table compact color={'purple'} columns={4}>
+        <Table color={'purple'} columns={4}>
           <Table.Header>
             <Table.Row>
               <Table.HeaderCell colSpan={1}>{!this.props.error ? 'Final Recipe' : <Message error header={this.props.errorMessage} />}</Table.HeaderCell>
-              <Table.HeaderCell colSpan={1}>{!this.props.error ? 'Ratios' : <Message error header={this.props.errorMessage} />}</Table.HeaderCell>
+              <Table.HeaderCell colSpan={1}>{!this.props.error ? 'Ratio' : <Message error header={this.props.errorMessage} />}</Table.HeaderCell>
               <Table.HeaderCell colSpan={1}>{!this.props.error ? 'Volume' : <Message error header={this.props.errorMessage} />}</Table.HeaderCell>
               <Table.HeaderCell colSpan={1}>{!this.props.error ? 'Weight' : <Message error header={this.props.errorMessage} />}</Table.HeaderCell>
             </Table.Row>
 
           </Table.Header>
           <Table.Body>
+            <RecipeRow 
+              label={'Nicotine'}
+              percentage={this.calculateNicotinePercent(juiceStrength, nicotineStrength, juiceVolume) + '%'} />
             <Table.Row>
-              <Table.Cell>Nicotine - Strength</Table.Cell>
-              <Table.Cell>
-                <NumberInput 
-                  name={'nicotineStrength'}
-                  clearError={this.props.clearError}
-                  value={this.props.nicotineStrength}
-                  handleChange={this.props.handleRatioChange}
-                  label={'mg/ml'}/>
-
-              </Table.Cell>
+              <Table.Cell>Nicotine</Table.Cell>
+              <Table.Cell>{'Ratio'}</Table.Cell>
+              <Table.Cell>{'Volume'}</Table.Cell>
+              <Table.Cell>{'Grams'}</Table.Cell>
             </Table.Row>
             <Table.Row>
-              <Table.Cell>Nicotine - VG</Table.Cell>
-              <Table.Cell>
-                <NumberInput
-                  name={'nicotineVg'}
-                  clearError={this.props.clearError}
-                  value={this.props.nicotineVg}
-                  handleChange={this.props.handleRatioChange}
-                  label={'%'} />
-
-              </Table.Cell>
+              <Table.Cell>Vegetable Glycerin</Table.Cell>
+              <Table.Cell>{'Ratio'}</Table.Cell>
+              <Table.Cell>{'Volume'}</Table.Cell>
+              <Table.Cell>{'Grams'}</Table.Cell>
             </Table.Row>
             <Table.Row>
-              <Table.Cell>Nicotine - PG</Table.Cell>
-              <Table.Cell><NumberInput name={'pg'}
-                clearError={this.props.clearError}
-                disabled
-                value={(100 - this.props.nicotineVg)}
-                label={'%'} /></Table.Cell>
+              <Table.Cell>Propylene Glycol</Table.Cell>
+              <Table.Cell>{'Ratio'}</Table.Cell>
+              <Table.Cell>{'Volume'}</Table.Cell>
+              <Table.Cell>{'Grams'}</Table.Cell>
             </Table.Row>
           </Table.Body>
         </Table>
