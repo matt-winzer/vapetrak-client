@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
-import { Table, Message } from 'semantic-ui-react'
-import NumberInput from '../NumberInput'
+import { Table } from 'semantic-ui-react'
+// import NumberInput from '../NumberInput'
 import RecipeRow from './RecipeRow'
 
 
@@ -16,8 +16,8 @@ class Recipe extends Component {
     return nicVgWeight + nicPgWeight
   }
 
-
-  
+  calculatePgWeight = (pgVolume) => ( pgVolume * 1.01 )
+  calculateVgWeight = (vgVolume) => ( vgVolume * 1.26 )
   calculateVolumeFromPercent = (totalVolume, liquidPercent) => ( (liquidPercent / 100) * totalVolume )
   calculatePercentFromVolume = (totalVolume, liquidVolume) => ( (liquidVolume / totalVolume) * 100 )
 
@@ -27,12 +27,6 @@ class Recipe extends Component {
     return totalPgVgVolumeTarget - nicPgVgVolume
   }
 
-  // calculatePgVolume = (totalVolume, nicVolume, nicPgPercent, juicePgPercent) => {
-  //   const nicPgVolume = nicVolume * (nicPgPercent / 100)
-  //   const totalPgVolumeTarget = totalVolume * (juicePgPercent / 100)
-  //   return totalPgVolumeTarget - nicPgVolume
-  // }
-
   render() {
     const {
       juiceStrength,
@@ -41,19 +35,20 @@ class Recipe extends Component {
       nicotineStrength,
       nicotineVg } = this.props
     
-    console.log(nicotineVg, 'NIC VG')
-
     const juicePg = 100 - juiceVg
     const nicotinePg = 100 - nicotineVg
+
     const nicotinePercent = this.calculateNicotinePercent(juiceStrength, nicotineStrength, juiceVolume)
     const nicotineVolume = this.calculateVolumeFromPercent(juiceVolume, nicotinePercent)
     const nicotineWeight = this.calculateNicotineWeight(nicotineVolume, nicotineVg, nicotinePg)
+
     const vgVolume = this.calculatePgVgVolume(juiceVolume, nicotineVolume, nicotineVg, juiceVg)
     const vgPercent = this.calculatePercentFromVolume(juiceVolume, vgVolume)
+    const vgWeight = this.calculateVgWeight(vgVolume)
+
     const pgVolume = this.calculatePgVgVolume(juiceVolume, nicotineVolume, nicotinePg, juicePg)
     const pgPercent = this.calculatePercentFromVolume(juiceVolume, pgVolume)
-
-
+    const pgWeight = this.calculatePgWeight(pgVolume)
 
     return (
       <div className="NumberInput-Table">
@@ -78,11 +73,13 @@ class Recipe extends Component {
               label={'Vegetable Glycerin'}
               percentage={vgPercent.toFixed(2)}
               volume={vgVolume.toFixed(2)}
+              grams={vgWeight.toFixed(2)}
             />
             <RecipeRow
               label={'Propylene Glycol'}
               percentage={pgPercent.toFixed(2)}
               volume={pgVolume.toFixed(2)}
+              grams={pgWeight.toFixed(2)}
             />
           </Table.Body>
         </Table>
