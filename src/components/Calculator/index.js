@@ -1,10 +1,12 @@
 import React, { Component } from 'react'
-import { Grid } from 'semantic-ui-react'
+import { Grid, Header, Icon } from 'semantic-ui-react'
 
 import NicotineTable from './NicotineTable'
 import JuiceTable from './JuiceTable'
 import ErrorMessage from './ErrorMessage'
 import Recipe from './Recipe'
+
+import './Calculator.css'
 
 
 class Calculator extends Component {
@@ -49,8 +51,14 @@ class Calculator extends Component {
   isLessThan100 = (input) => input <= 100
 
   render() {
+    console.log('hello from calculator')
+
     return (
-      <div className="Calculator">
+      <div className="calculator">
+        <Header as='h2'>
+          <Icon name='calculator' />
+          <Header.Content>Recipe Calculator</Header.Content>
+        </Header>
         {this.state.error && <ErrorMessage errorMessage={this.state.errorMessage} />}
         <Grid padded>
           <Grid.Row columns={2}>

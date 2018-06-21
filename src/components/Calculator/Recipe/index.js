@@ -6,16 +6,29 @@ import RecipeRow from './RecipeRow'
 
 class Recipe extends Component {
 
-  calculateNicotinePercent = (juiceStrength, nicStrength, juiceVolume) => {
-    return ((((juiceStrength / nicStrength) * juiceVolume) / juiceVolume) * 100).toFixed(2)
+  calculateNicotinePercent = (juiceStrength, nicStrength, juiceVolume) => ((((juiceStrength / nicStrength) * juiceVolume) / juiceVolume) * 100)
+
+  calculateVolume = (totalVolume, liquidPercent) => ((liquidPercent / 100) * totalVolume)
+
+  calculatePercent = () => {
+
   }
 
   render() {
-    const { juiceStrength,
-            juiceVg,
-            juiceVolume,
-            nicotineStrength,
-            nicotineVg } = this.props
+    const {
+      juiceStrength,
+      juiceVg,
+      juiceVolume,
+      nicotineStrength,
+      nicotineVg } = this.props
+
+    const nicotinePercent = this.calculateNicotinePercent(juiceStrength, nicotineStrength, juiceVolume)
+    const nicotineVolume = this.calculateVolume(juiceVolume, nicotinePercent)
+    const vgVolume = this.calculateVolume(juiceVolume, juiceVg)
+    const vgPercent = (vgVolume / juiceVolume) * 100
+    const pgVolume = this.calculateVolume(juiceVolume, 100 - juiceVg)
+    const pgPercent = (pgVolume / juiceVolume) * 100
+
 
     return (
       <div className="NumberInput-Table">
@@ -23,34 +36,28 @@ class Recipe extends Component {
           <Table.Header>
             <Table.Row>
               <Table.HeaderCell colSpan={1}>{!this.props.error ? 'Final Recipe' : <Message error header={this.props.errorMessage} />}</Table.HeaderCell>
-              <Table.HeaderCell colSpan={1}>{!this.props.error ? 'Ratio' : <Message error header={this.props.errorMessage} />}</Table.HeaderCell>
-              <Table.HeaderCell colSpan={1}>{!this.props.error ? 'Volume' : <Message error header={this.props.errorMessage} />}</Table.HeaderCell>
-              <Table.HeaderCell colSpan={1}>{!this.props.error ? 'Weight' : <Message error header={this.props.errorMessage} />}</Table.HeaderCell>
+              <Table.HeaderCell colSpan={1}>{!this.props.error ? 'Percentage' : <Message error header={this.props.errorMessage} />}</Table.HeaderCell>
+              <Table.HeaderCell colSpan={1}>{!this.props.error ? 'Volume (ml)' : <Message error header={this.props.errorMessage} />}</Table.HeaderCell>
+              <Table.HeaderCell colSpan={1}>{!this.props.error ? 'Weight (g)' : <Message error header={this.props.errorMessage} />}</Table.HeaderCell>
             </Table.Row>
 
           </Table.Header>
           <Table.Body>
             <RecipeRow 
               label={'Nicotine'}
-              percentage={this.calculateNicotinePercent(juiceStrength, nicotineStrength, juiceVolume) + '%'} />
-            <Table.Row>
-              <Table.Cell>Nicotine</Table.Cell>
-              <Table.Cell>{'Ratio'}</Table.Cell>
-              <Table.Cell>{'Volume'}</Table.Cell>
-              <Table.Cell>{'Grams'}</Table.Cell>
-            </Table.Row>
-            <Table.Row>
-              <Table.Cell>Vegetable Glycerin</Table.Cell>
-              <Table.Cell>{'Ratio'}</Table.Cell>
-              <Table.Cell>{'Volume'}</Table.Cell>
-              <Table.Cell>{'Grams'}</Table.Cell>
-            </Table.Row>
-            <Table.Row>
-              <Table.Cell>Propylene Glycol</Table.Cell>
-              <Table.Cell>{'Ratio'}</Table.Cell>
-              <Table.Cell>{'Volume'}</Table.Cell>
-              <Table.Cell>{'Grams'}</Table.Cell>
-            </Table.Row>
+              percentage={nicotinePercent.toFixed(2)}
+              volume={nicotineVolume.toFixed(2)}
+            />
+            <RecipeRow
+              label={'Vegetable Glycerin'}
+              percentage={vgPercent.toFixed(2)}
+              volume={vgVolume.toFixed(2)}
+            />
+            <RecipeRow
+              label={'Propylene Glycol'}
+              percentage={pgPercent.toFixed(2)}
+              volume={pgVolume.toFixed(2)}
+            />
           </Table.Body>
         </Table>
       </div>
