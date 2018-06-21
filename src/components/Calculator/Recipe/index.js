@@ -7,11 +7,18 @@ import RecipeRow from './RecipeRow'
 class Recipe extends Component {
 
   calculateNicotinePercent = (juiceStrength, nicStrength, juiceVolume) => ( (((juiceStrength / nicStrength) * juiceVolume) / juiceVolume) * 100 )
-
-  calculateVolumeFromPercent = (totalVolume, liquidPercent) => {
-    return (liquidPercent / 100) * totalVolume
+  
+  calculateNicotineWeight = (nicVolume, nicVgPercent, nicPgPercent) => {
+    const nicVgVolume = (nicVgPercent / 100) * nicVolume
+    const nicPgVolume = (nicPgPercent / 100) * nicVolume
+    const nicVgWeight = nicVgVolume * 1.26
+    const nicPgWeight = nicPgVolume * 1.01
+    return nicVgWeight + nicPgWeight
   }
 
+
+  
+  calculateVolumeFromPercent = (totalVolume, liquidPercent) => ( (liquidPercent / 100) * totalVolume )
   calculatePercentFromVolume = (totalVolume, liquidVolume) => ( (liquidVolume / totalVolume) * 100 )
 
   calculatePgVgVolume = (totalVolume, nicVolume, nicPgVgPercent, juicePgVgPercent) => {
@@ -40,6 +47,7 @@ class Recipe extends Component {
     const nicotinePg = 100 - nicotineVg
     const nicotinePercent = this.calculateNicotinePercent(juiceStrength, nicotineStrength, juiceVolume)
     const nicotineVolume = this.calculateVolumeFromPercent(juiceVolume, nicotinePercent)
+    const nicotineWeight = this.calculateNicotineWeight(nicotineVolume, nicotineVg, nicotinePg)
     const vgVolume = this.calculatePgVgVolume(juiceVolume, nicotineVolume, nicotineVg, juiceVg)
     const vgPercent = this.calculatePercentFromVolume(juiceVolume, vgVolume)
     const pgVolume = this.calculatePgVgVolume(juiceVolume, nicotineVolume, nicotinePg, juicePg)
@@ -53,7 +61,7 @@ class Recipe extends Component {
           <Table.Header>
             <Table.Row>
               <Table.HeaderCell colSpan={1}>Final Recipe</Table.HeaderCell>
-              <Table.HeaderCell colSpan={1}>Percentage</Table.HeaderCell>
+              <Table.HeaderCell colSpan={1}>Percentage (%)</Table.HeaderCell>
               <Table.HeaderCell colSpan={1}>Volume (ml)</Table.HeaderCell>
               <Table.HeaderCell colSpan={1}>Weight (g)</Table.HeaderCell>
             </Table.Row>
@@ -64,6 +72,7 @@ class Recipe extends Component {
               label={'Nicotine'}
               percentage={nicotinePercent.toFixed(2)}
               volume={nicotineVolume.toFixed(2)}
+              grams={nicotineWeight.toFixed(2)}
             />
             <RecipeRow
               label={'Vegetable Glycerin'}
