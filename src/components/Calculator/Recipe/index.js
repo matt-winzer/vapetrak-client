@@ -6,12 +6,24 @@ import RecipeRow from './RecipeRow'
 
 class Recipe extends Component {
 
-  calculateNicotinePercent = (juiceStrength, nicStrength, juiceVolume) => ((((juiceStrength / nicStrength) * juiceVolume) / juiceVolume) * 100)
+  calculateNicotinePercent = (juiceStrength, nicStrength, juiceVolume) => ( (((juiceStrength / nicStrength) * juiceVolume) / juiceVolume) * 100 )
 
-  calculateVolume = (totalVolume, liquidPercent) => ((liquidPercent / 100) * totalVolume)
+  calculateVolumeFromPercent = (totalVolume, liquidPercent) => {
+    return (liquidPercent / 100) * totalVolume
+  }
 
-  calculatePercent = () => {
+  calculatePercentFromVolume = (totalVolume, liquidVolume) => ( (liquidVolume / totalVolume) * 100 )
 
+  calculateVgVolume = (totalVolume, nicVolume, nicVgPercent, juiceVgPercent) => {
+    const nicVgVolume = nicVolume * (nicVgPercent / 100)
+    const totalVgVolumeTarget = totalVolume * (juiceVgPercent / 100)
+    return totalVgVolumeTarget - nicVgVolume
+  }
+
+  calculatePgVolume = (totalVolume, nicVolume, nicPgPercent, juicePgPercent) => {
+    const nicVgVolume = nicVolume * (nicPgPercent / 100)
+    const totalVgVolumeTarget = totalVolume * (juicePgPercent / 100)
+    return totalVgVolumeTarget - nicVgVolume
   }
 
   render() {
@@ -21,13 +33,21 @@ class Recipe extends Component {
       juiceVolume,
       nicotineStrength,
       nicotineVg } = this.props
+    
+    console.log(nicotineVg, 'NIC VG')
 
+    const juicePg = 100 - juiceVg
+    const nicotinePg = 100 - nicotineVg
     const nicotinePercent = this.calculateNicotinePercent(juiceStrength, nicotineStrength, juiceVolume)
-    const nicotineVolume = this.calculateVolume(juiceVolume, nicotinePercent)
-    const vgVolume = this.calculateVolume(juiceVolume, juiceVg)
-    const vgPercent = (vgVolume / juiceVolume) * 100
-    const pgVolume = this.calculateVolume(juiceVolume, 100 - juiceVg)
-    const pgPercent = (pgVolume / juiceVolume) * 100
+    const nicotineVolume = this.calculateVolumeFromPercent(juiceVolume, nicotinePercent)
+
+    const totalVolumeMinusNicotine = juiceVolume - nicotineVolume
+
+    const vgVolume = this.calculateVgVolume(juiceVolume, nicotineVolume, nicotineVg, juiceVg)
+    const vgPercent = this.calculatePercentFromVolume(totalVolumeMinusNicotine, vgVolume)
+    const pgVolume = this.calculatePgVolume(juiceVolume, nicotineVolume, nicotinePg, juicePg)
+    const pgPercent = this.calculatePercentFromVolume(totalVolumeMinusNicotine, pgVolume)
+
 
 
     return (
@@ -35,10 +55,10 @@ class Recipe extends Component {
         <Table color={'purple'} columns={4}>
           <Table.Header>
             <Table.Row>
-              <Table.HeaderCell colSpan={1}>{!this.props.error ? 'Final Recipe' : <Message error header={this.props.errorMessage} />}</Table.HeaderCell>
-              <Table.HeaderCell colSpan={1}>{!this.props.error ? 'Percentage' : <Message error header={this.props.errorMessage} />}</Table.HeaderCell>
-              <Table.HeaderCell colSpan={1}>{!this.props.error ? 'Volume (ml)' : <Message error header={this.props.errorMessage} />}</Table.HeaderCell>
-              <Table.HeaderCell colSpan={1}>{!this.props.error ? 'Weight (g)' : <Message error header={this.props.errorMessage} />}</Table.HeaderCell>
+              <Table.HeaderCell colSpan={1}>Final Recipe</Table.HeaderCell>
+              <Table.HeaderCell colSpan={1}>Percentage</Table.HeaderCell>
+              <Table.HeaderCell colSpan={1}>Volume (ml)</Table.HeaderCell>
+              <Table.HeaderCell colSpan={1}>Weight (g)</Table.HeaderCell>
             </Table.Row>
 
           </Table.Header>
