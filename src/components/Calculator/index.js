@@ -51,8 +51,6 @@ class Calculator extends Component {
   isLessThan100 = (input) => input <= 100
 
   render() {
-    console.log('hello from calculator')
-
     return (
       <div className="calculator">
         <Header as='h2'>

@@ -14,17 +14,17 @@ class Recipe extends Component {
 
   calculatePercentFromVolume = (totalVolume, liquidVolume) => ( (liquidVolume / totalVolume) * 100 )
 
-  calculateVgVolume = (totalVolume, nicVolume, nicVgPercent, juiceVgPercent) => {
-    const nicVgVolume = nicVolume * (nicVgPercent / 100)
-    const totalVgVolumeTarget = totalVolume * (juiceVgPercent / 100)
-    return totalVgVolumeTarget - nicVgVolume
+  calculatePgVgVolume = (totalVolume, nicVolume, nicPgVgPercent, juicePgVgPercent) => {
+    const nicPgVgVolume = nicVolume * (nicPgVgPercent / 100)
+    const totalPgVgVolumeTarget = totalVolume * (juicePgVgPercent / 100)
+    return totalPgVgVolumeTarget - nicPgVgVolume
   }
 
-  calculatePgVolume = (totalVolume, nicVolume, nicPgPercent, juicePgPercent) => {
-    const nicVgVolume = nicVolume * (nicPgPercent / 100)
-    const totalVgVolumeTarget = totalVolume * (juicePgPercent / 100)
-    return totalVgVolumeTarget - nicVgVolume
-  }
+  // calculatePgVolume = (totalVolume, nicVolume, nicPgPercent, juicePgPercent) => {
+  //   const nicPgVolume = nicVolume * (nicPgPercent / 100)
+  //   const totalPgVolumeTarget = totalVolume * (juicePgPercent / 100)
+  //   return totalPgVolumeTarget - nicPgVolume
+  // }
 
   render() {
     const {
@@ -40,13 +40,10 @@ class Recipe extends Component {
     const nicotinePg = 100 - nicotineVg
     const nicotinePercent = this.calculateNicotinePercent(juiceStrength, nicotineStrength, juiceVolume)
     const nicotineVolume = this.calculateVolumeFromPercent(juiceVolume, nicotinePercent)
-
-    const totalVolumeMinusNicotine = juiceVolume - nicotineVolume
-
-    const vgVolume = this.calculateVgVolume(juiceVolume, nicotineVolume, nicotineVg, juiceVg)
-    const vgPercent = this.calculatePercentFromVolume(totalVolumeMinusNicotine, vgVolume)
-    const pgVolume = this.calculatePgVolume(juiceVolume, nicotineVolume, nicotinePg, juicePg)
-    const pgPercent = this.calculatePercentFromVolume(totalVolumeMinusNicotine, pgVolume)
+    const vgVolume = this.calculatePgVgVolume(juiceVolume, nicotineVolume, nicotineVg, juiceVg)
+    const vgPercent = this.calculatePercentFromVolume(juiceVolume, vgVolume)
+    const pgVolume = this.calculatePgVgVolume(juiceVolume, nicotineVolume, nicotinePg, juicePg)
+    const pgPercent = this.calculatePercentFromVolume(juiceVolume, pgVolume)
 
 
 
